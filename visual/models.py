@@ -27,4 +27,4 @@ class Visual(models.Model):
         return self.title
     
     class Meta:
-        ordering = ['-date_watched']
+        ordering = ['-rating']
