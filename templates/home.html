@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style type="text/css">
+    .visual {
+        border: 1px solid #ccc;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        padding: 1rem;
+        border-radius: 3%;
+        position: relative;
+    }
+    
+    .visual .visual-label {
+        
+    }
+</style>
+
+<div class="row visuals">
+    <div class="columns large-3 medium-4 small-6 visual-sizer"></div>
+    {% for visual in visuals %}
+    <div class="columns large-3 medium-4 small-6 visual-wrapper">
+        <div class="visual success">
+            <div class="visual-label">
+                <div class="label-text">
+                    {{ visual.watched }}
+                </div>
+            </div>
+            <div class="visual-content">
+                <img src="{{ visual.images }}" />
+                <h3 class="lead">{{ visual.title }}</h3>
+                <p>{{ visual.rating }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

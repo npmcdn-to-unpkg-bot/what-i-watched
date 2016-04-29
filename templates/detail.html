@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="detal">
+    <div class="row">
+        <div class="columns large-4 small-12">
+            <img src="{{ visual.images }}" />
+        </div>
+        <div class="columns large-4 small-12">
+            <h1>{{ visual.title }}</h1>
+        </div>
+        <div class="columns large-4 small-12">
+        </div>
+    </div>
+    <div class="row">
+        
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.21/vue.min.js"></script>
+<script type="text/javascript">
+var douban = {
+    name: "douban",
+    api: "https://api.douban.com/v2/movie/subject/{{ visual.douban_id }}",
+};
+var imdb = {
+    name: "imdb",
+    api: "https://api.douban.com/v2/movie/subject/{{ visual.douban_id }}",
+};
+var visual = new Vue({
+    el: "#detail",
+    data : {
+        apis: [douban, imdb],
+        currentApi: douban,
+        visual: null,
+    },
+    
+    created: function() {
+        this.fetchData()
+    },
+    
+    watch: {
+        currentApi: "fetchData",
+    },
+    
+    methods: {
+        fetchData: function() {
+            var self = this;
+            $.ajax({
+                url: self.currentApi.api,
+                type: 'get',
+                dataType: 'jsonp',
+                async: false,
+                success: function(data) {
+                    self.visual = data;
+                    console.log(self.visual);
+                }
+            });
+        }
+    }
+});
+</script>
+
+{% endblock %}

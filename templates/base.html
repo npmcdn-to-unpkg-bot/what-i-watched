@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Compressed CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.1/foundation.min.css">
+        <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+        <style type="text/css">
+            html {
+                overflow-y: scroll;
+            }
+            .container {
+                padding: 0 5%;
+            }
+        </style>
+        <title>What I watched</title>
+    </head>
+    <body>
+        <div class="top-bar" id="menu">
+          <div class="top-bar-left">
+            <ul class="dropdown menu" data-dropdown-menu>
+              <li class="menu-text"><a href="/">What I Watched</a></li>
+            </ul>
+          </div>
+          <div class="top-bar-right">
+            <ul class="menu">
+              <li><input type="search" placeholder="Search"></li>
+              <li><button type="button" class="button">Search</button></li>
+            </ul>
+          </div>
+        </div>
+        <div class="container">
+        {% block content %}
+        {% endblock %}
+        </div>
+        
+        <!-- Compressed JavaScript -->
+        <script src="https://cdn.jsdelivr.net/foundation/6.2.1/foundation.min.js"></script>
+        <script src="https://npmcdn.com/isotope-layout@3.0/dist/isotope.pkgd.min.js"></script>
+        <script type="text/javascript">
+            function pullFromDouban(douban_id, callback) {
+                var doubanData = "error";
+                $.ajax({
+                    type: "GET", 
+                    url: "https://api.douban.com/v2/movie/subject/" + $("#douban_id").val(),
+                    data: {},
+                    dataType: "jsonp",
+                    async: false,
+                    success: function (data) {
+                        callback(data);
+                    }
+                });
+            }
+            
+            //add && edit page
+            $("#douban").on("click", function() {
+                var douban_id = $("#douban_id").val();
+                if (douban_id == "") {
+                    alert("no douban id");
+                    return;
+                }
+                pullFromDouban(douban_id, function(data) {
+                    $("#title").val(data.title);
+                    $("#original_title").val(data.original_title);
+                    $("#year").val(data.year);
+                    $("#rating").val(data.rating.average);
+                    $("#image-preview").attr("src", data.images.large);
+                    $("#images").val(data.images.large);
+                    $("#summary").val(data.summary);
+                });
+            });
+            
+            $('.visuals').isotope({
+              // set itemSelector so .grid-sizer is not used in layout
+              itemSelector: '.visual-wrapper',
+              percentPosition: true,
+              masonry: {
+                // use element for option
+                columnWidth: '.visual-sizer'
+              }
+            })
+        </script>
+    </body>
+</html>
