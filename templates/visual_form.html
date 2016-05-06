@@ -1,0 +1,82 @@
+<style type="text/css">
+    .success, .loading {
+        display: none;
+    }
+</style>
+<button class="button" id="douban">Pull from Douban</button>
+<div class="loading label warning">Loading</div>
+<div class="success label">Success</div>
+<form method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="columns medium-4">
+            <label>
+                <span class="">Title</span>
+                <input type="text" id="title" name="title" value="{{ visual.title }}"/>
+            </label>
+        </div>
+        <div class="columns medium-4">
+            <label>
+                <span class="">Original Title</span>
+                <input type="text" id="original_title" name="original_title" value="{{ visual.original_title }}" />
+            </label>
+        </div>
+        <div class="columns medium-4">
+            <span class="">Watched</span>
+            <div class="switch">
+              <input class="switch-input" id="watched" type="checkbox" name="watched" {{ visual.watched|yesno:"checked, " }} />
+              <label class="switch-paddle" for="watched">
+              </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="columns medium-6">
+            <label>
+                <span class="">IMDB ID</span>
+                <input type="text" id="imdb_id" name="imdb_id" value="{{ visual.imdb_id }}"/>
+            </label>
+        </div>
+        <div class="columns medium-6">
+            <label>
+                <span class="">Douban ID
+                <input type="text" id="douban_id" name="douban_id" value="{{ visual.douban_id }}" />
+            </label>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="columns medium-6">
+            <label>
+                <span class="">Year</span>
+                <input type="text" id="year" name="year" value="{{ visual.year }}" />
+            </label>
+        </div>
+        <div class="columns medium-6">
+            <label>
+                <span class="">Rating</span>
+                <input type="text" id="rating" name="rating" value="{{ visual.rating }}" />
+            </label>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="columns medium-6">
+            <img id="image-preview" src="{{ visual.images }}" />
+        </div>
+        <div class="columns medium-6">
+            <label>
+                <span class="">Images</span>
+                <input type="text" id="images" name="images" value="{{ visual.images }}" />
+            </label>
+        </div>
+    </div>
+    
+    <div class="row">
+        <label>
+            <span class="">Summary</span>
+            <textarea id="summary" name="summary">{{ visual.summary }}</textarea>
+        </label>
+    </div>
+    <input class="button success" type="submit" value="{{ form }}"/>
+</form>

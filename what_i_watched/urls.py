@@ -23,4 +23,7 @@ urlpatterns = [
     url(r'^(?P<id>\d+)', 'visual.views.detail'),
     url(r'^add', 'visual.views.add'),
     url(r'^edit/(?P<id>\d+)/$', 'visual.views.edit'),
+    url(r'^export', 'visual.views.export'),
+    url(r'^import', 'visual.views.importVisual'),
+    url(r'^test', 'visual.views.test'),
 ]

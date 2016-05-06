@@ -13,7 +13,7 @@ class Type(models.Model):
 class Visual(models.Model):
     title = models.CharField(max_length=60, blank=True)
     watched = models.BooleanField(default=True)
-    douban_id = models.CharField(max_length=60)
+    douban_id = models.CharField(max_length=60, unique=True)
     imdb_id = models.CharField(max_length=60, blank=True)
     visual_type = models.ManyToManyField(Type, blank=True)
     date_watched = models.DateTimeField(auto_now_add = True)

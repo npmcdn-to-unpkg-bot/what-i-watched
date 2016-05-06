@@ -22,6 +22,7 @@
           <div class="top-bar-left">
             <ul class="dropdown menu" data-dropdown-menu>
               <li class="menu-text"><a href="/">What I Watched</a></li>
+              <li class="menu-text"><a href="/add">Add Visual</a></li>
             </ul>
           </div>
           <div class="top-bar-right">
@@ -49,6 +50,9 @@
                     dataType: "jsonp",
                     async: false,
                     success: function (data) {
+                        console.log(data);
+                        $(".loading").hide();
+                        $(".success").show();
                         callback(data);
                     }
                 });
@@ -56,6 +60,7 @@
             
             //add && edit page
             $("#douban").on("click", function() {
+                $(".loading").show();
                 var douban_id = $("#douban_id").val();
                 if (douban_id == "") {
                     alert("no douban id");
@@ -71,15 +76,16 @@
                     $("#summary").val(data.summary);
                 });
             });
-            
-            $('.visuals').isotope({
-              // set itemSelector so .grid-sizer is not used in layout
-              itemSelector: '.visual-wrapper',
-              percentPosition: true,
-              masonry: {
-                // use element for option
-                columnWidth: '.visual-sizer'
-              }
+            $(document).ready(function() {
+                $('.visuals').isotope({
+                  // set itemSelector so .grid-sizer is not used in layout
+                  itemSelector: '.visual-wrapper',
+                  percentPosition: true,
+                  masonry: {
+                    // use element for option
+                    columnWidth: '.visual-sizer'
+                  }
+                })
             })
         </script>
     </body>

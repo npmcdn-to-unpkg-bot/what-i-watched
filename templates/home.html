@@ -10,9 +10,18 @@
         border-radius: 3%;
         position: relative;
     }
-    
-    .visual .visual-label {
-        
+    .columns {
+        margin-bottom: 20px;
+    }
+    .visual .rating {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .visual .title {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 </style>
 
@@ -20,18 +29,17 @@
     <div class="columns large-3 medium-4 small-6 visual-sizer"></div>
     {% for visual in visuals %}
     <div class="columns large-3 medium-4 small-6 visual-wrapper">
+        <a href="/edit/{{ visual.id }}">
         <div class="visual success">
-            <div class="visual-label">
-                <div class="label-text">
-                    {{ visual.watched }}
-                </div>
-            </div>
             <div class="visual-content">
                 <img src="{{ visual.images }}" />
-                <h3 class="lead">{{ visual.title }}</h3>
-                <p>{{ visual.rating }}</p>
             </div>
+            <div class="rating label secondary">
+                {{ visual.rating }}
+            </div>
+            <div class="title label success">{{ visual.original_title }}</div>
         </div>
+        </a>
     </div>
     {% endfor %}
 </div>
