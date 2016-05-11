@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', 'visual.views.home'),
     url(r'^(?P<id>\d+)', 'visual.views.detail'),
+    url(r'^dashboard', 'visual.views.dashboard'),
     url(r'^add', 'visual.views.add'),
     url(r'^edit/(?P<id>\d+)/$', 'visual.views.edit'),
     url(r'^export', 'visual.views.export'),

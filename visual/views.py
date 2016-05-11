@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from visual.models import Visual
 from visual.helper import formHelper, importHelper
 import requests
+import os
 
 # Create your views here.
 
@@ -17,8 +18,11 @@ def home(request):
 
 def detail(request, id):
     visual = Visual.objects.get(id=int(id))
-    
     return render(request, 'detail.html', {'visual' : visual})
+
+def dashboard(request):
+    visuals = Visual.objects.all()
+    return render(request, 'dashboard.html', {'visuals':visuals})
 
 def add(request):
     if request.method == 'POST':
@@ -38,15 +42,20 @@ def edit(request, id):
 
 def export(request):
     visuals = Visual.objects.all()
+    
+    module_dir = os.path.dirname(__file__)  # get current directory
+    file_path = os.path.join(module_dir, 'douban.txt')
     douban = "";
-    douban_file = open("douban.txt", "w")
+    douban_file = open(file_path, "w")
     for visual in visuals:
         douban += visual.douban_id + "\n"
     douban_file.write(douban)
     return HttpResponse(douban, content_type='text/plain')
 
 def importVisual(request):
-    doubans = open("douban.txt", "r+")
+    module_dir = os.path.dirname(__file__)  # get current directory
+    file_path = os.path.join(module_dir, 'douban.txt')
+    doubans = open(file_path, "r+")
     for douban in doubans:
         douban = douban.strip()
         douban_api = "https://api.douban.com/v2/movie/subject/" + douban
