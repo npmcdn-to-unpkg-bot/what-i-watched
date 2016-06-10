@@ -1,3 +1,6 @@
+import requests
+
+
 def formHelper(visual, request):
     title = request.POST.get('title')
     original_title = request.POST.get('original_title')
@@ -27,3 +30,11 @@ def importHelper(visual, data):
     visual.images = data['images']['large']
     visual.summary = data['summary']
     return visual
+
+# def getIMDB(douban_id):
+#     douban_url = 'https://movie.douban.com/subject/' + douban_id
+#     page = requests.get(douban_url)
+#     tree = html.fromstring(page.content)
+#     buyers = tree.xpath('//div[@class="buyer-name"]/text()')
+#     imdb_id = douban_id
+#     return imdb_id

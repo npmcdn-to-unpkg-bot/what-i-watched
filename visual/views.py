@@ -1,44 +1,56 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.shortcuts import redirect
-from visual.models import Visual
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from visual.models import Visual, Type
 from visual.helper import formHelper, importHelper
+from django.contrib.auth import authenticate, login
 import requests
 import os
 
 # Create your views here.
 
 def home(request):
+    user = request.user
     sort = request.GET.get('sort')
     if sort:
         visuals = Visual.objects.order_by('-' + sort)
     else:
         visuals = Visual.objects.all()
-    return render(request, 'home.html', {'visuals' : visuals})
+    return render(request, 'visual/home.html', {'visuals' : visuals, 'user' : user})
+
+def type_visuals(request, id):
+    visuals = Visual.objects.filter(visual_type__id=int(id))
+    return render(request, 'visual/type.html', {'visuals' : visuals})
 
 def detail(request, id):
     visual = Visual.objects.get(id=int(id))
-    return render(request, 'detail.html', {'visual' : visual})
-
-def dashboard(request):
-    visuals = Visual.objects.all()
-    return render(request, 'dashboard.html', {'visuals':visuals})
+    reviews = visual.review_set.all()
+    types = visual.visual_type.all()
+    return render(request, 'visual/detail.html', {'visual' : visual, 'types' : types, 'reviews' : reviews})
 
 def add(request):
+    visual_types = Type.objects.all()
     if request.method == 'POST':
         visual = Visual.objects.create()
         visual = formHelper(visual, request)
         visual.save()
-        return redirect('/')
-    return render(request, 'add.html')
+        return redirect('/dashboard')
+    if request.user.is_superuser:
+        return render(request, 'visual/add.html', {'types' : visual_types})
+    else:
+        return HttpResponseRedirect('/')
 
 def edit(request, id):
     visual = Visual.objects.get(id=int(id))
+    visual_types = Type.objects.all()
     if request.method == 'POST':
+        print(request.POST.get('visual_types'))
         visual = formHelper(visual, request)
         visual.save()
-        return redirect('/')
-    return render(request, 'edit.html', {'visual' : visual})
+        #return redirect('/dashboard')
+    if request.user.is_superuser:
+        return render(request, 'visual/edit.html', {'visual' : visual, 'types' : visual_types})
+    else:
+        return HttpResponseRedirect('/')
 
 def export(request):
     visuals = Visual.objects.all()
@@ -65,6 +77,3 @@ def importVisual(request):
         visual = importHelper(visual, data)
         visual.save()
     return HttpResponse("import success")
-
-def test(request):
-    return HttpResponse("test");

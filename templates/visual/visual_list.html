@@ -1,0 +1,18 @@
+<div class="row visuals">
+    <div class="columns large-3 medium-4 small-6 visual-sizer"></div>
+    {% for visual in visuals %}
+    <div class="columns large-3 medium-4 small-6 visual-wrapper">
+        <a href="/visual/{{ visual.id }}">
+        <div class="visual success">
+            <div class="visual-content">
+                <img src="{{ visual.images }}" />
+            </div>
+            <div class="rating label secondary">
+                {{ visual.rating }}
+            </div>
+            <div class="title label success">{{ visual.original_title }}</div>
+        </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>

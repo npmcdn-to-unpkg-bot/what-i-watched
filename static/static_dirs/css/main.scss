@@ -1,0 +1,40 @@
+@import 'foundation-icons';
+
+$visualWrapperPadding: 0.5rem;
+
+@mixin block {
+    border: 1px solid #ccc;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 3%;
+}
+
+html {
+    overflow-y: scroll;
+}
+.container {
+    padding: 0 5%;
+}
+
+.visual-wrapper {
+    padding-left: $visualWrapperPadding;
+    padding-right: $visualWrapperPadding;
+}
+
+.visual {
+    @include block;
+    position: relative;
+    .rating, .title {
+        position: absolute;
+        top: 0;
+    }
+    .rating {
+        left: 0;
+    }
+    .title {
+        right: 0;
+    }
+}
+.columns {
+    margin-bottom: 20px;
+}

@@ -28,3 +28,15 @@ class Visual(models.Model):
     
     class Meta:
         ordering = ['-rating']
+
+class Review(models.Model):
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    visual = models.ForeignKey(Visual, on_delete=models.CASCADE)
+    
+    def __unicode__(self):
+        return self.content
+    
+    class Meta:
+        ordering = ['-updated_at']

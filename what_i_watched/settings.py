@@ -78,14 +78,22 @@ WSGI_APPLICATION = 'what_i_watched.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'c9',
+#         'USER': 'a09liweis',
+#         'PASSWORD': '',
+#         'HOST': '',
+#         'PORT': '3306'
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'c9',
-        'USER': 'a09liweis',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.sqlite3',
+        # GETTING-STARTED: change 'db.sqlite3' to your sqlite3 database:
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -127,3 +135,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'static_root')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static', 'static_dirs'),
+]
