@@ -2,6 +2,19 @@
 
 {% block content %}
 
-<h1>Home</h1>
+<section id="title" class="section">
+    <div class="row float-center text-center">
+        <h1 class="welcome">Welcome to What I watched</h1>
+        <p>I know your don't care what I watched, but I just use this to record what I watched</p>
+    </div>
+</section>
+
+<section id="visuals" class="section">
+    <div class="row clearfix">
+        <h3 class="float-left">Recent Visuals</h3>
+        <a class="button float-right" href="{% url 'visual:home' %}">Show More</a>
+    </div>
+    {% include "visual/visual_list.html" with visuals=visuals %}
+</section>
 
 {% endblock %}

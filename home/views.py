@@ -2,10 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from home.forms import UserForm
+from visual.models import Visual
 # Create your views here.
 
 def home(request):
-    return render(request, 'common/home.html')
+    visuals = Visual.objects.order_by('-date_watched')[:4]
+    return render(request, 'common/home.html', {'visuals' : visuals})
 
 def register(request):
     # A boolean value for telling the template whether the registration was successful.
@@ -86,7 +88,11 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    redirect_path = request.GET.get('redirect')
+    if redirect_path:
+        return HttpResponseRedirect(redirect_path)
+    else:
+        return HttpResponseRedirect('/')
 
 def dashboard(request):
     if request.user.is_superuser:

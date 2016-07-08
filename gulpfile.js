@@ -6,11 +6,11 @@ gulp.task('default', function() {
 });
 
 gulp.task('sass', function() {
-    return gulp.src('static/static_dirs/css/main.scss')
+    return gulp.src('visual/static/visual/css/main.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-        .pipe(gulp.dest('static/static_dirs/css/'));
+        .pipe(gulp.dest('visual/static/visual/css/'));
 });
 
 gulp.task('sass:watch', function () {
-    gulp.watch('static/static_dirs/css/main.scss', ['sass']);
+    gulp.watch('visual/static/visual/css/main.scss', ['sass']);
 });

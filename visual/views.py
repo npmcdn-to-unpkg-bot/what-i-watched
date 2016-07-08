@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from visual.models import Visual, Type
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from visual.models import Visual, Type, Review
 from visual.helper import formHelper, importHelper
 from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_exempt
 import requests
 import os
 
@@ -10,19 +11,20 @@ import os
 
 def home(request):
     user = request.user
+    current_path = request.get_full_path()
     sort = request.GET.get('sort')
     if sort:
         visuals = Visual.objects.order_by('-' + sort)
     else:
         visuals = Visual.objects.all()
-    return render(request, 'visual/home.html', {'visuals' : visuals, 'user' : user})
+    return render(request, 'visual/home.html', {'visuals' : visuals, 'user' : user, 'current_path' : current_path})
 
 def type_visuals(request, id):
     visuals = Visual.objects.filter(visual_type__id=int(id))
     return render(request, 'visual/type.html', {'visuals' : visuals})
 
 def detail(request, id):
-    visual = Visual.objects.get(id=int(id))
+    visual = get_object_or_404(Visual, pk=id)
     reviews = visual.review_set.all()
     types = visual.visual_type.all()
     return render(request, 'visual/detail.html', {'visual' : visual, 'types' : types, 'reviews' : reviews})
@@ -51,6 +53,18 @@ def edit(request, id):
         return render(request, 'visual/edit.html', {'visual' : visual, 'types' : visual_types})
     else:
         return HttpResponseRedirect('/')
+
+@csrf_exempt
+def ajax_submit_review(request):
+    if request.method == 'POST':
+        user = request.user
+        content = request.POST.get('content')
+        visual_id = request.POST.get('visual_id')
+        visual = Visual.objects.get(id=int(visual_id))
+        review = Review.objects.create(content=content, visual=visual, user=user)
+        review.save()
+        response = {'status' : 'success', 'user' : user.username}
+        return JsonResponse(response)
 
 def export(request):
     visuals = Visual.objects.all()

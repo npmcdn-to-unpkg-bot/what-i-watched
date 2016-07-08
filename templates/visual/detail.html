@@ -2,82 +2,59 @@
 
 {% block content %}
 
-<div id="detal">
+<div id="visual detail">
+    <input type=hidden id="visual_id" value="{{ visual.id }}" />
+    <input type=hidden id="douban_id" value="{{ visual.douban_id }}" />
     <div class="row">
-        <div class="columns large-4 small-12">
-            <img src="{{ visual.images }}" />
+        <div class="columns small-12">
+            <h1>{{ visual.original_title }}</h1>
         </div>
-        <div class="columns large-4 small-12">
-            <h1>{{ visual.title }}</h1>
+    </div>
+    <div class="row">
+        <div class="columns large-3 small-12">
+            <img class="poster" src="{{ visual.images }}" />
         </div>
-        <div class="columns large-4 small-12">
+        <div class="columns large-6 small-12">
+            <p>{{ visual.summary }}</p>
+        </div>
+        <div class="columns large-3 small-12">
             {% for type in types %}
             <a class="label" href="type/{{ type.id }}">{{ type.name }}</a>
             {% endfor %}
         </div>
     </div>
-    <div class="row">
-        {% if reviews %}
-        <h3>Reviews</h3>
-        {% for review in reviews %}
-        <div class="media-object">
-            <div class="media-object-section">
-                <div class="thumbnail">
-                    
+    <div class="row" id="casts">
+        
+    </div>
+    <div class="row" id="reviews">
+        <div class="columns">
+            <h3>Reviews</h3>
+            <div id="reviews-container">
+                {% if reviews %}
+                {% for review in reviews %}
+                <div class="media-object">
+                    <div class="media-object-section">
+                        <div class="thumbnail">
+                            <img src="http://dummyimage.com/50x50/000/ffffff.jpg&text={{ review.user }}" />
+                        </div>
+                    </div>
+                    <div class="media-object-section">
+                        <p>{{ review }}</p>
+                    </div>
                 </div>
+                {% endfor %}
+                {% endif %}
             </div>
-            <div class="media-object-section">
-                <p>{{ review }}</p>
+            {% if user.is_authenticated %}
+            <div class="review-submit">
+                <textarea id="submit-review-content"></textarea>
+                <div class="button" id="submit-review">Submit your review</div>
             </div>
+            {% else %}
+            <div class="button">Login to submit your review</div>
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
     </div>
 </div>
-
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.21/vue.min.js"></script>
-<script type="text/javascript">
-var douban = {
-    name: "douban",
-    api: "https://api.douban.com/v2/movie/subject/{{ visual.douban_id }}",
-};
-var imdb = {
-    name: "imdb",
-    api: "https://api.douban.com/v2/movie/subject/{{ visual.douban_id }}",
-};
-var visual = new Vue({
-    el: "#detail",
-    data : {
-        apis: [douban, imdb],
-        currentApi: douban,
-        visual: null,
-    },
-    
-    created: function() {
-        this.fetchData()
-    },
-    
-    watch: {
-        currentApi: "fetchData",
-    },
-    
-    methods: {
-        fetchData: function() {
-            var self = this;
-            $.ajax({
-                url: self.currentApi.api,
-                type: 'get',
-                dataType: 'jsonp',
-                async: false,
-                success: function(data) {
-                    self.visual = data;
-                    console.log(self.visual);
-                }
-            });
-        }
-    }
-});
-</script>
 
 {% endblock %}

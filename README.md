@@ -44,5 +44,8 @@ Recreate all the tables:
 
     $ python manage.py syncdb
 
-douban_id
-26259677
+Design Reference:
+https://dribbble.com/shots/1700421-MovieTV/attachments/270939
+
+CSS Framework
+http://foundation.zurb.com/sites/docs/

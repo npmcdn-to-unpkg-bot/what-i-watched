@@ -1,0 +1,72 @@
+@import 'foundation-icons';
+
+$visualWrapperPadding: 0.5rem;
+
+@mixin borderRadius {
+    border-radius: 3%;
+    -webkit-border-radius: 3%;
+    -moz-border-radius: 3%;
+    -ms-border-radius: 3%;
+}
+
+@mixin transition {
+    transition: all 0.5s linear;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+body {
+}
+
+.container {
+    margin-top: 3rem;
+    padding: 0 5%;
+}
+
+.section {
+    margin-bottom: 20px;
+    &#title {
+        margin-top: 4rem;
+    }
+    
+    .welcome {
+        text-transform: uppercase;
+    }
+}
+
+.visual-wrapper {
+    padding-left: $visualWrapperPadding;
+    padding-right: $visualWrapperPadding;
+}
+
+.top-bar,
+.top-bar ul{
+    background: #123340;
+}
+
+#logo {
+    font-style: italic;
+    font-family: inherit;
+    color: #7f7f7f;
+}
+
+.poster {
+    @include borderRadius;
+}
+
+.visual {
+    @include transition;
+    position: relative;
+    .rating {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    &:hover {
+    }
+}
+.columns {
+    margin-bottom: 20px;
+}
