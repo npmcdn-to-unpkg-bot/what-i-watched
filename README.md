@@ -49,3 +49,12 @@ https://dribbble.com/shots/1700421-MovieTV/attachments/270939
 
 CSS Framework
 http://foundation.zurb.com/sites/docs/
+
+Execute:
+
+python manage.py dumpdata > datadump.json
+Next, change your settings.py to the mysql database.
+
+Finally:
+
+python manage.py loaddata datadump.json

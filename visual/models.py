@@ -23,6 +23,7 @@ class Visual(models.Model):
     rating = models.FloatField(blank=True, default=0.0)
     images = models.TextField(blank=True)
     summary = models.TextField(blank=True)
+    view_count = models.IntegerField(default=0)
     
     def __unicode__(self):
         return self.title
@@ -32,6 +33,7 @@ class Visual(models.Model):
 
 class Review(models.Model):
     content = models.TextField()
+    rating = models.FloatField(default=0.0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     visual = models.ForeignKey(Visual, on_delete=models.CASCADE)

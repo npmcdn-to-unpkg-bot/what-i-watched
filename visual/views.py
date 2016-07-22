@@ -25,6 +25,10 @@ def type_visuals(request, id):
 
 def detail(request, id):
     visual = get_object_or_404(Visual, pk=id)
+    view_count = visual.view_count
+    view_count += 1
+    visual.view_count = view_count
+    visual.save()
     reviews = visual.review_set.all()
     types = visual.visual_type.all()
     return render(request, 'visual/detail.html', {'visual' : visual, 'types' : types, 'reviews' : reviews})

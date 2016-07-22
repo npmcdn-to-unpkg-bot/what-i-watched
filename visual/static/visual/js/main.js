@@ -1,8 +1,11 @@
+var doubanAPIURL = "https://api.douban.com/v2/movie";
+var usBox = "/us_box";
+
 function pullFromDouban(douban_id, callback) {
     var doubanData = "error";
     $.ajax({
         type: "GET", 
-        url: "https://api.douban.com/v2/movie/subject/" + $("#douban_id").val(),
+        url: doubanAPIURL + "/subject/" + $("#douban_id").val(),
         data: {},
         dataType: "jsonp",
         async: false,
