@@ -57,6 +57,19 @@ $(document).ready(function() {
         });
     }
     
+    if ($('#visual_id').val()) {
+        $.ajax({
+            type: "POST", 
+            url: '/visual/ajax_get_reviews',
+            data: {
+                'id': $('#visual_id').val(),
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+    
     $('#submit-review').on('click', function() {
         var content = $('#submit-review-content').val();
         $.ajax({

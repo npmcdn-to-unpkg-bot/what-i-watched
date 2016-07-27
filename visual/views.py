@@ -5,7 +5,9 @@ from visual.helper import formHelper, importHelper
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 import requests
+import json
 import os
+from django.core import serializers
 
 # Create your views here.
 
@@ -70,6 +72,16 @@ def ajax_submit_review(request):
         response = {'status' : 'success', 'user' : user.username}
         return JsonResponse(response)
 
+@csrf_exempt
+def ajax_get_reviews(request):
+    if request.method == 'POST':
+        id = int(request.POST.get('id'))
+        visual = get_object_or_404(Visual, pk=id)
+        reviews = visual.review_set.all()
+        response = {'reviews' : reviews}
+        data = serializers.serialize("json", reviews)
+        return HttpResponse(data, content_type='application/json')
+    
 def export(request):
     visuals = Visual.objects.all()
     

@@ -6,7 +6,7 @@ from visual.models import Visual
 # Create your views here.
 
 def home(request):
-    visuals = Visual.objects.order_by('-date_watched')[:4]
+    visuals = Visual.objects.order_by('-date_updated')[:6]
     return render(request, 'common/home.html', {'visuals' : visuals})
 
 def register(request):

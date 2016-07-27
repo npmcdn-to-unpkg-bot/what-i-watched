@@ -16,14 +16,17 @@ class Visual(models.Model):
     watched = models.BooleanField(default=True)
     douban_id = models.CharField(max_length=60, unique=True)
     imdb_id = models.CharField(max_length=60, blank=True)
-    visual_type = models.ManyToManyField(Type, blank=True)
     date_watched = models.DateTimeField(auto_now_add = True)
+    date_updated = models.DateTimeField(auto_now = True)
     original_title = models.CharField(max_length=60, blank=True)
     year = models.IntegerField(blank=True, default=0)
     rating = models.FloatField(blank=True, default=0.0)
     images = models.TextField(blank=True)
     summary = models.TextField(blank=True)
     view_count = models.IntegerField(default=0)
+    
+    visual_type = models.ManyToManyField(Type, blank=True)
+    favorite = models.ManyToManyField(User, blank=True)
     
     def __unicode__(self):
         return self.title

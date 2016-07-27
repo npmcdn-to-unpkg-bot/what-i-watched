@@ -32,7 +32,11 @@
                     <li class="menu-text"><a href="/login">Login</a></li>
                     <li class="menu-text"><a href="/register">Register</a></li>
                     {% else %}
-                    <li class="menu-text"><a href="/user/{{ user.id }}">Welcome, {{ user.username }}</a></li>
+                    {% if user.is_superuser %}
+                    <li class="menu-text"><a href="{% url 'userprofile:detail' user.id %}">Welcome, {{ user.username }}</a></li>
+                    {% else %}
+                    <li class="menu-text">Welcome, {{ user.username }}</li>
+                    {% endif %}
                     <li class="menu-text"><a href="/logout?redirect={{ current_path }}">Logout</a></li>
                     {% endif %}
                 </ul>
