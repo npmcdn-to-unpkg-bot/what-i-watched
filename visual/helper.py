@@ -1,4 +1,6 @@
 import requests
+import urllib2
+import re
 
 
 def formHelper(visual, request):
@@ -18,6 +20,7 @@ def formHelper(visual, request):
     visual.rating = float(rating)
     visual.images = images
     visual.summary = summary
+    visual = get_imdb_id(visual, douban_id)
     return visual
 
 def importHelper(visual, data):
@@ -29,12 +32,15 @@ def importHelper(visual, data):
     visual.rating = float(data['rating']['average'])
     visual.images = data['images']['large']
     visual.summary = data['summary']
+    visual = get_imdb_id(visual, visual.douban_id)
     return visual
 
-# def getIMDB(douban_id):
-#     douban_url = 'https://movie.douban.com/subject/' + douban_id
-#     page = requests.get(douban_url)
-#     tree = html.fromstring(page.content)
-#     buyers = tree.xpath('//div[@class="buyer-name"]/text()')
-#     imdb_id = douban_id
-#     return imdb_id
+def get_imdb_id(visual, douban_id):
+    #get imdb from douban detail page
+    url = 'https://movie.douban.com/subject/' + douban_id
+    url_content = urllib2.urlopen(url).read()
+    answers = re.findall('href="http://www.imdb.com/title/(.*?)"', url_content)
+    print(answers)
+    if len(answers) > 0:
+        visual.imdb_id = answers[0]
+    return visual

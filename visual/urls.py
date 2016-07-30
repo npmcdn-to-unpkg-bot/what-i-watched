@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^ajax_get_reviews', 'visual.views.ajax_get_reviews'),
     url(r'^export', 'visual.views.export'),
     url(r'^import', 'visual.views.importVisual'),
-    #url(r'^updateallvisual', 'visual.views.updateVisual'),
+    url(r'^update', 'visual.views.update_visuals'),
 ]

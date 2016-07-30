@@ -33,7 +33,7 @@
                     <li class="menu-text"><a href="/register">Register</a></li>
                     {% else %}
                     {% if user.is_superuser %}
-                    <li class="menu-text"><a href="{% url 'userprofile:detail' user.id %}">Welcome, {{ user.username }}</a></li>
+                    <li class="menu-text"><a href="userprofile/{{user.id}}">Welcome, {{ user.username }}</a></li>
                     {% else %}
                     <li class="menu-text">Welcome, {{ user.username }}</li>
                     {% endif %}

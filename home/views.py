@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from home.forms import UserForm
-from visual.models import Visual
+from visual.models import Visual, Type
 # Create your views here.
 
 def home(request):
@@ -96,6 +96,14 @@ def user_logout(request):
 
 def dashboard(request):
     if request.user.is_superuser:
-        return render(request, 'common/dashboard.html', {})
+        num_visuals = len(Visual.objects.all())
+        
+        num_types = []
+        types = Type.objects.all()
+        for type in types:
+            num_types.append({'name':type.name, 'num':len(type.visual_set.all())})
+        
+        status = {'num_visuals' : num_visuals, 'num_types' : num_types}
+        return render(request, 'common/dashboard.html', status)
     else:
         return HttpResponseRedirect('/')

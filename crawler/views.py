@@ -22,7 +22,7 @@ def zhihu_get_pic(request):
     answers = re.findall('h3 data-num="(.*?)"', url_content)
     limits = int(answers[0])
     
-    images = []
+    images = ''
     while offset < limits:
         post_url = "http://www.zhihu.com/node/QuestionAnswerListV2"
         params = json.dumps({
@@ -42,6 +42,7 @@ def zhihu_get_pic(request):
         }
         response = requests.post(post_url, data=data, headers=header)
         answer_list = response.json()["msg"]
+        print(answer_list)
         # img_urls = re.findall('img .*?data-original="(.*?_r.*?)"', ''.join(answer_list))
         img_urls = re.findall('img .*?src="(.*?_b.*?)"', ''.join(answer_list))
         for img_url in img_urls:
@@ -49,9 +50,8 @@ def zhihu_get_pic(request):
                 split_list = urlsplit(img_url)
                 if split_list[0] == 'https':
                     img = split_list[0] + '://' + split_list[1] + split_list[2]
-                    images.append(img)
+                    images += '<img src="' + img + '"/>'
             except:
                 pass
         offset += page_size
-    data = serializers.serialize("json", images)
-    return HttpResponse(data, content_type='application/json')
+    return HttpResponse(images)

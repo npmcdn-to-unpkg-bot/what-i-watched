@@ -9,11 +9,14 @@
 <form method="POST">
     {% csrf_token %}
     <div class="row">
-        <select id="visual_types" name="visual_types" multiple>
-            {% for type in types %}
-            <option value="{{ type.id }}">{{ type.name }}</option>
-            {% endfor %}
-        </select>
+        <!--<select id="visual_types" name="visual_types" multiple>-->
+        <!--    {% for type in types %}-->
+        <!--    <option value="{{ type.id }}">{{ type.name }}</option>-->
+        <!--    {% endfor %}-->
+        <!--</select>-->
+        {% for type in types %}
+        <input type="checkbox" name="visual_types" value="{{ type.id }}" />{{ type.name }}
+        {% endfor %}
     </div>
     <div class="row">
         <div class="columns medium-4">

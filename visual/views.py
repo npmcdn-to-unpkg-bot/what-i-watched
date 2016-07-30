@@ -107,3 +107,15 @@ def importVisual(request):
         visual = importHelper(visual, data)
         visual.save()
     return HttpResponse("import success")
+
+def update_visuals(request):
+    visuals = Visual.objects.all()
+    for visual in visuals:
+        douban_id = visual.douban_id
+        douban_api = 'https://api.douban.com/v2/movie/subject/' + douban_id
+        response = requests.get(douban_api)
+        data = response.json()
+        visual = importHelper(visual, data)
+
+        visual.save()
+    return HttpResponse('update success')

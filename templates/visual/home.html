@@ -2,6 +2,12 @@
 
 {% block content %}
 
+<div class="row">
+    <h3>Sort By</h3>
+    <a class="button" href="/visual?sort=rating">Rating</a>
+    <a class="button" href="/visual?sort=year">Year</a>
+</div>
+
 {% include "visual/visual_list.html" with visuals=visuals %}
 
 {% endblock %}
