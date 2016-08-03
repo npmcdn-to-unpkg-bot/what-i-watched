@@ -18,7 +18,7 @@ def home(request):
     if sort:
         visuals = Visual.objects.order_by('-' + sort)
     else:
-        visuals = Visual.objects.all()
+        visuals = Visual.objects.order_by('-date_updated')
     return render(request, 'visual/home.html', {'visuals' : visuals, 'user' : user, 'current_path' : current_path})
 
 def type_visuals(request, id):
@@ -27,10 +27,6 @@ def type_visuals(request, id):
 
 def detail(request, id):
     visual = get_object_or_404(Visual, pk=id)
-    view_count = visual.view_count
-    view_count += 1
-    visual.view_count = view_count
-    visual.save()
     reviews = visual.review_set.all()
     types = visual.visual_type.all()
     return render(request, 'visual/detail.html', {'visual' : visual, 'types' : types, 'reviews' : reviews})
